@@ -3,144 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2D Car Racing Game</title>
+    <title>Car Racing Game</title>
     <style>
-        body { margin:0; overflow:hidden; background:#111; }
-        canvas { display:block; margin:0 auto; background:#333; }
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
         #startPage, #gameOver {
-            position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.9); color:white;
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.9);
             display:flex; flex-direction:column; align-items:center; justify-content:center;
-            font-family:sans-serif; z-index:1000;
+            z-index: 1000;
         }
-        #startPage button, #gameOver button {
-            padding:10px 20px; font-size:18px; border:none;
-            border-radius:8px; background:#ffcc00; cursor:pointer; margin-top:15px;
-        }
-        #gameOver { display:none; }
-        #scoreBoard {
-            position:fixed; top:10px; left:10px;
-            color:white; font-family:sans-serif; font-size:20px;
+        #mainContainer { display: none; }
+        button {
+            padding:10px 20px; font-size:18px; border:none; border-radius:8px;
+            background:#ffcc00; cursor:pointer;
         }
     </style>
 </head>
 <body>
+    <!-- Start Page -->
     <div id="startPage">
         <h1>Car Racing Game</h1>
         <button onclick="startGame()">Start Racing</button>
     </div>
 
-    <div id="gameOver">
+    <!-- Game Container -->
+    <div id="mainContainer">
+        <canvas id="canvas"></canvas>
+        <div id="scoreBoard" style="position:fixed; top:10px; left:10px; font-size:20px;">
+            Score: <span id="score">0</span>
+        </div>
+    </div>
+
+    <!-- Game Over Page -->
+    <div id="gameOver" style="display:none;">
         <h1>Game Over</h1>
         <p>Your Score: <span id="finalScore">0</span></p>
         <button onclick="restartGame()">Restart</button>
     </div>
 
-    <div id="scoreBoard">Score: <span id="score">0</span></div>
-    <canvas id="gameCanvas" width="400" height="600"></canvas>
+<script>
+let c, ctx, w, h, carW=50, carH=80, cx, cy, cars=[], score=0, intv;
+let cl=false, cr=false; // control flags
 
-    <script>
-        var c = document.getElementById("gameCanvas");
-        var ctx = c.getContext("2d");
-        var w = c.width, h = c.height;
+function startGame(){
+    document.getElementById("startPage").style.display="none";
+    document.getElementById("mainContainer").style.display="block";
+    init();
+}
 
-        var intv, cars = [], score = 0;
-        var cl = false, cr = false;
-        var cx = w/2, carH = 40;
+function init(){
+    c = document.getElementById("canvas");
+    ctx = c.getContext("2d");
+    w = window.innerWidth;
+    h = window.innerHeight;
+    c.width = w;
+    c.height = h;
+    cx = w/2 - carW/2;
+    cy = h - carH - 20;
+    cars = [];
+    score = 0;
+    document.getElementById("score").textContent = score;
 
-        // Player car image
-        var playerCar = new Image();
-        playerCar.src = "https://i.ibb.co/hWkL9cB/player.png";
+    intv = setInterval(update, 30);
 
-        function CarBuilder(x,y){
-            this.x = x;
-            this.y = y;
-            this.car = new Image();
-            this.car.src = "https://i.ibb.co/LpMst7M/enemy.png";
+    // Keyboard Controls
+    document.onkeydown = function(e){
+        if(e.keyCode==37) cl = true;
+        if(e.keyCode==39) cr = true;
+    }
+    document.onkeyup = function(e){
+        if(e.keyCode==37) cl = false;
+        if(e.keyCode==39) cr = false;
+    }
+
+    // Touch Controls (NEW)
+    c.addEventListener("touchstart", handleTouch);
+    c.addEventListener("touchend", handleTouchEnd);
+}
+
+function update(){
+    ctx.clearRect(0,0,w,h);
+
+    // Player Car
+    ctx.fillStyle="red";
+    if(cl && cx>0) cx -= 10;
+    if(cr && cx < w-carW) cx += 10;
+    ctx.fillRect(cx, cy, carW, carH);
+
+    // Opponent Cars
+    if(Math.random()<0.05){
+        let ox = Math.random()*(w-carW);
+        cars.push({x:ox, y:-carH});
+    }
+
+    ctx.fillStyle="blue";
+    for(let i=0;i<cars.length;i++){
+        let car = cars[i];
+        car.y += 10;
+        ctx.fillRect(car.x, car.y, carW, carH);
+
+        // Collision
+        if(car.y+carH>=cy && car.y<=cy+carH && car.x+carW>=cx && car.x<=cx+carW){
+            gameOver();
         }
 
-        CarBuilder.prototype.draw = function(){
-            ctx.drawImage(this.car,this.x,this.y,40,80);
-            this.y += 4;
-
-            if(this.y >= h-20){
-                if(Math.abs(this.x-cx) <= carH && Math.abs(this.y-h+carH) <= carH){
-                    clearInterval(intv);
-                    document.getElementById("mainContainer")?.style.display = "none";
-                    document.getElementById("gameOver").style.display = "flex";
-                    document.getElementById("finalScore").textContent = score;
-                }
-            }
-        }
-
-        function draw(){
-            ctx.fillStyle = "#222";
-            ctx.fillRect(0,0,w,h);
-
-            if(cl && cx > 0) cx -= 5;
-            if(cr && cx < w-40) cx += 5;
-
-            ctx.drawImage(playerCar,cx,h-100,40,80);
-
-            for(var i=0; i<cars.length; i++){
-                cars[i].draw();
-            }
-
-            if(Math.random() < 0.02){
-                var rx = Math.random()*(w-40);
-                cars.push(new CarBuilder(rx,-100));
-            }
-
+        // Score
+        if(car.y>h){
             score++;
             document.getElementById("score").textContent = score;
+            cars.splice(i,1); i--;
         }
+    }
+}
 
-        function startGame(){
-            document.getElementById("startPage").style.display = "none";
-            document.getElementById("gameOver").style.display = "none";
-            score = 0;
-            cars = [];
-            cx = w/2;
-            intv = setInterval(draw,30);
-        }
+function gameOver(){
+    clearInterval(intv);
+    document.getElementById("mainContainer").style.display="none";
+    document.getElementById("gameOver").style.display="flex";
+    document.getElementById("finalScore").textContent = score;
+}
 
-        function restartGame(){
-            document.getElementById("gameOver").style.display = "none";
-            document.getElementById("startPage").style.display = "block";
-            document.getElementById("score").textContent = "0";
-        }
+function restartGame(){
+    document.getElementById("gameOver").style.display="none";
+    document.getElementById("startPage").style.display="flex";
+}
 
-        // Keyboard controls
-        document.addEventListener("keydown", function(e){
-            if(e.key === "ArrowLeft"){ cl = true; }
-            if(e.key === "ArrowRight"){ cr = true; }
-        });
-        document.addEventListener("keyup", function(e){
-            if(e.key === "ArrowLeft"){ cl = false; }
-            if(e.key === "ArrowRight"){ cr = false; }
-        });
-
-        // ✅ Touch controls (for mobile/tablets)
-        function getTouch(e){
-            e.preventDefault();
-            var to = e.changedTouches[0];
-            var tx = parseInt(to.clientX);
-            if(tx < w/2){   // tap left
-                cr = true;
-                cl = false;
-            }
-            else{           // tap right
-                cl = true;
-                cr = false;
-            }
-        }
-        function getTouchEnd(){
-            cl = false;
-            cr = false;
-        }
-
-        c.addEventListener("touchstart",getTouch);
-        c.addEventListener("touchend",getTouchEnd);
-    </script>
+// Touch Functions
+function handleTouch(e){
+    let touch = e.touches[0];
+    if(touch.clientX < w/2){ // left side
+        cl = true; cr = false;
+    } else { // right side
+        cr = true; cl = false;
+    }
+}
+function handleTouchEnd(){
+    cl = false; cr = false;
+}
+</script>
 </body>
 </html>
