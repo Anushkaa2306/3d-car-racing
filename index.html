@@ -10,18 +10,21 @@
         <div class="nav">
             <div class="logo">
                 <img src="images/icon.png" alt=""></div>
-                <div class="text"><h1>3D Car Drive</h1></div>
-                <div id="scoreDiv">
-                    <span id="score">0</span>
-                    <img src="https://image.ibb.co/jRAp0y/coin.png" id="cn">
-                </div>
+                <div class="text"><h1>3D Car Drive</h1></div>  <h2>your scrore : </h2>
+               <div id="scoreDiv">
+  <span id="score" > 0</span>
+    <img src="https://image.ibb.co/jRAp0y/coin.png" id="cn" width="30">
+</div>
+
+<canvas id="gameCanvas" width="400" height="600"></canvas>
+
             </div>
 
         <div class="gameHome" id="startPage">
             <button onclick="ld()" id="playBtn"><span style="font-size:18px">Loading Assets<br>Please Wait...<br>This may take a few seconds for first time</span></button><br>
             <div id="ldc"><div id="loading"></div></div>
-            <p id="messageText">Rotate your phone & tilt left/right or tap left/right side of screen to move the car<br>Use left/right arrow key on your PC</p>
-            <button id="restartBtn" onclick="restart()" style="display:none;">Restart Game</button>
+            <p id="messageText"></p>
+            <button id="restartBtn" style="display:none;">Restart Game</button>
             <script type="text/javascript">
                 (function(){
                     "use strict"
@@ -42,22 +45,92 @@
 
 
         <div id="mainContainer" style="background:rgb(25, 187, 25)" >
-            <img id="city" src="https://images.shiksha.com/mediadata/images/1750671973phpBq6D4T.jpeg">
-            <canvas id="myCanvas" style="/*background:#9de732*/" ></canvas>
+            <img id="city" src="">
+            <canvas id="myCanvas" style ="background:#9de732,rgb(25, 187, 25)" ></canvas>
         </div>
         <img class="aImg" id="t1" src="https://image.ibb.co/dZi5Ly/t1.png">
         <img class="aImg" id="t2" src="https://image.ibb.co/jajjDJ/t2.png">
         <img class="aImg" id="t3" src="https://image.ibb.co/it4jDJ/t5.png">
         <img class="aImg" id="t4" src="https://image.ibb.co/ksy0nd/t4.png">
-        <img class="aImg" id="c1" src="images/car.png">
+        <img class="aImg" id="c1" src="images/car.png" >
+       
 <script>
+
+    let canvas = document.getElementById("gameCanvas");
+let ctx = canvas.getContext("2d");
+
+let score = 0;
+let car = { x: 180, y: 500, w: 40, h: 80 };
+let coin = { x: 200, y: 0, w: 30, h: 30, speed: 3 };
+let gameOver = false;
+
+// Draw car
+function drawCar() {
+    ctx.fillStyle = "blue";
+    ctx.fillRect(car.x, car.y, car.w, car.h);
+}
+
+// Draw coin
+function drawCoin() {
+    let img = document.getElementById("cn");
+    ctx.drawImage(img, coin.x, coin.y, coin.w, coin.h);
+}
+
+// Move coin down
+function moveCoin() {
+    coin.y += coin.speed;
+    if (coin.y > canvas.height) {
+        coin.y = -30;
+        coin.x = Math.random() * (canvas.width - coin.w);
+    }
+}
+
+// Check collision between car and coin
+function checkCollision() {
+    if (
+        car.x < coin.x + coin.w &&
+        car.x + car.w > coin.x &&
+        car.y < coin.y + coin.h &&
+        car.y + car.h > coin.y
+    ) {
+        score++;
+        document.getElementById("score").innerText = score;
+        coin.y = -30; // reset coin
+        coin.x = Math.random() * (canvas.width - coin.w);
+    }
+}
+
+// Game loop
+function gameLoop() {
+    if (gameOver) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawCar();
+    drawCoin();
+    moveCoin();
+    checkCollision();
+
+    requestAnimationFrame(gameLoop);
+}
+
+// End game and show score
+function endGame() {
+    gameOver = true;
+    alert("Game Over! Your Score: " + score);
+}
+
+// Example: end game after 20 seconds
+
+
+gameLoop();
+
        var ld;
 
 var loaded = false;
 
 
 function done(){
-
+setTimeout(endGame, 2000);
 document.getElementById("ldc").innerHTML="";
 
 document.getElementById("ldc").style.display = "none";
@@ -331,7 +404,7 @@ var carSrc = [_i("c1"),_i("c1"),_i("c1")];
 
 var cars = [];
 
-for(var n = 0; n < ((h*0.7+100)/gameDifficulty); n++){
+for(var n = 0; n < ((h*.7+100)/gameDifficulty); n++){
 
 cars.push(new CarBuilder(Math.floor(Math.random()*3),stp+n*gameDifficulty,1));
 
@@ -891,17 +964,7 @@ i--;
 }
 
 }
-
-
-
-// draw counter
-
-ctx.fillStyle = "yellow";
-
-ctx.font = "20px Arial";
-
-ctx.fillText("Coins: " + coinCount, 20, 40);
-
+document.getElementById("c1").style.width = "550px";
 
 
 
