@@ -33,7 +33,7 @@
             body{
                 margin:0;
                 height:100vh;
-                background: radial-gradient(circle at top right, #ff9a00, #ff3c00, #1a1a1d, #0f2027);
+                background: radial-gradient(circle at top right, #001eff, #593cfd, #1a1a1d, #0f2027);
 
                 width:100vw;
                 
@@ -107,20 +107,14 @@
                 transform-origin:100% 0%;
             }
             
-            #cn {
-                height:90px;
-                width:70px;
-                background:rgb(0, 21, 255);
-               align-content: center;
-                border-radius:50%;
-                object-fit:cover;
-            }
+            
             
             .gameHome {
                 position:absolute;
                 top:0;
                 left:0;
-                background:#fff;
+                 background: linear-gradient(135deg, #0f2027, #2c5364, #00c9ff, #92fe9d, #ff6a00, #ee0979);
+
                 height:100vh;
                 width:100vw;
                 margin-top:80px;
