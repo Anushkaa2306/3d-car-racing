@@ -1,0 +1,201 @@
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}body{
+    font-family: Arial, sans-serif;
+    background-color: #090808;
+    color: #ece5e5;
+   height: 98vh;
+}
+.topUI{
+    position: absolute;
+    z-index: 1000;
+    transform:translate(-50%,25px) ;
+    text-shadow: -2px 0 black,0 2px black ,2px 0 black, 0 -2px black;
+    letter-spacing: 2px;
+    color: rgb(251, 247, 247);
+    font-size: 17px;
+
+}
+.topUI::before{
+  display: inline-block;
+  height: 17px;
+  padding: 1px 2px;
+  line-height: 19px;
+  font-size: 17px;
+  background: #fff;
+  text-shadow: none;
+
+
+} */
+@import url('https://fonts.googleapis.com/css2?family=Keania+One&display=swap');    
+            body{
+                margin:0;
+                height:100vh;
+                background: radial-gradient(circle at top right, #ff9a00, #ff3c00, #1a1a1d, #0f2027);
+
+                width:100vw;
+                
+            }
+            .nav{
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:150px;
+                background:#000;
+                z-index:1000;
+                display: flex;
+            }
+        .nav img{
+           
+            height:130px;
+            width:150px;
+            border-radius: 60%;
+            object-fit:cover;
+            padding: 10px 40px;
+        }
+            #mainContainer {
+                position:absolute;
+                top:0;
+                left:0;
+                transform-origin:0% 0%;
+                width:100%;
+                transform:  translateX(0px) rotate(0deg);
+                overflow: hidden;
+              
+
+            }
+            
+            #city {
+                position:absolute;
+                top:0;
+                left:0;
+                height:30vw;
+                width:100%;
+                z-index:-1;
+                display: block;
+            }
+            
+            #myCanvas {
+                background:transparent;
+                z-index: 100;
+            }
+            
+            .aImg {
+                display:none;
+            }
+            
+            #mainContainer {
+                display:none;
+            }
+            
+            #scoreDiv {
+                position:absolute;
+              
+                background:transparent;
+                display:inline-block;
+                border:3px solid red;
+                padding:3px 50px 3px 10px;
+                border-radius:20px;
+                font-weight:700;
+                font-size:24px;
+                height:30px;
+                margin:10px;
+                z-index:1000;
+                transform-origin:100% 0%;
+            }
+            
+            #cn {
+                height:90px;
+                width:70px;
+                background:rgb(0, 21, 255);
+               align-content: center;
+                border-radius:50%;
+                object-fit:cover;
+            }
+            
+            .gameHome {
+                position:absolute;
+                top:0;
+                left:0;
+                background:#fff;
+                height:100vh;
+                width:100vw;
+                margin-top:80px;
+                transform-origin:0% 0%;
+                text-align:center;
+                
+            }
+            .text{
+                height: 100%;
+                width: 80%;
+                display: flex;
+                align-items:center ;
+                justify-content: center;
+            }
+            
+           .text h1{
+    
+            font-family: "Keania One", sans-serif;  font-weight: 400;
+  font-style: normal;   
+                font-size:105px;
+              color: antiquewhite;
+                
+                font-weight:800;
+            }
+            
+            #playBtn {
+                font-size:20px;
+                display:inline-block;
+                background:#1642ea;
+                color:#fff;
+                padding:3px 25px;
+                margin-top: 100px;
+                border:none;
+                border-radius:10px;
+                box-shadow:3px 4px #000;
+                outline:none;
+            }
+            
+            #gameConf {
+                width:50%;
+                height:100%;
+                background:red;
+            }
+            
+            #gameDifficulty {
+                width:100%;
+                height:50%;
+                background:blue;
+                padding:0;
+                margin:0;
+            }
+            
+            .diffOpt {
+                background:green;
+                font-size:20px;
+                text-align:center;
+            }
+            
+            #loading {
+                height:60px;
+                width:60px;
+                background:transparent;
+                display:inline-block;
+                border:10px solid transparent;
+                border-bottom-color:red;
+                border-left-color:red;
+                border-radius:50%;
+                animation:ld 1s linear infinite;
+            }
+            
+            @keyframes ld {
+                0% {
+                    transform:translateY(-165px) rotate(0deg);
+                }
+                100% {
+                    transform:translateY(-165px) rotate(360deg);
+                }
+            }
