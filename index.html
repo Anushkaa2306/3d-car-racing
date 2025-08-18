@@ -13,7 +13,7 @@
                 <div class="text"><h1>3D Car Drive</h1></div>  
                <div id="scoreDiv"><span><h2>your scrore : </h2></span>
   <span id="score" > 0</span>
-    <img src="https://image.ibb.co/jRAp0y/coin.png" id="cn">
+    <img src="https://static.vecteezy.com/system/resources/previews/010/851/211/non_2x/3d-illustration-golden-money-coins-png.png" id="cn">
 </div>
 
 <canvas id="gameCanvas" width="400" height="600"></canvas>
@@ -32,12 +32,19 @@
                     var hh = window.innerHeight || 560;
                     var gameHome = document.getElementById("startPage");
                     var scoreDiv = document.getElementById("scoreDiv");
+                    var nav = document.querySelector(".nav");
                     if(hh > hw){
                         gameHome.style.height = hw+"px";
                         gameHome.style.width = hh+"px";
                         gameHome.style.transform = "translateX("+hw+"px) rotate(90deg)";
                         scoreDiv.style.bottom = 0;
                         scoreDiv.style.transform = "rotate(90deg) translateX(40px)";
+                        if(nav) nav.style.transform = "rotate(90deg) translateX(40px)";
+                    } else {
+                        // Reset transforms for landscape view
+                        gameHome.style.transform = "";
+                        scoreDiv.style.transform = "";
+                        if(nav) nav.style.transform = "";
                     }
                 })();
             </script>
@@ -50,7 +57,7 @@
         </div>
         <img class="aImg" id="t1" src="https://image.ibb.co/dZi5Ly/t1.png">
         <img class="aImg" id="t2" src="https://image.ibb.co/jajjDJ/t2.png">
-        <img class="aImg" id="t3" src="https://image.ibb.co/it4jDJ/t5.png">
+        <img class="aImg" id="t3" src="https://png.pngtree.com/png-vector/20230831/ourmid/pngtree-3d-tree-illustration-png-image_9192692.png">
         <img class="aImg" id="t4" src="https://image.ibb.co/ksy0nd/t4.png">
         <img class="aImg" id="c1" src="images/car.png" >
        
@@ -158,9 +165,12 @@ h = w;
 w = nh;
 
 document.getElementById("mainContainer").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+document.getElementById("nav").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+document.getElementById("scoreDiv").style.transform = "translateX("+(h)+"px) rotate(90deg)";
 
 
 }
+
 
 document.getElementById("mainContainer").style.width = w+"px";
 
@@ -187,7 +197,7 @@ function loadGame(){
 "use strict";
 
 
-var roadWidth = 5*w/36;
+var roadWidth = 4*w/36;
 
 var roadTop = h-h*0.7;
 
@@ -327,7 +337,7 @@ var carWCnst = roadLeft*2/totalHeight;
 
 var carW = (w > 560) ? 120 : 90;
 
-var carH = carW*2/3;
+var carH = carW*5/5.2;
 
 
 function CarBuilder(src,start,lane){
@@ -360,7 +370,7 @@ this.x = (carWCnst/2)*(h-this.y)+(w-(carWCnst*(h-this.y)))*this.lane/8;
 
 this.w = carW-carW*carWCnst*(h-this.y)/w;
 
-this.h = 1.7*this.w/3;
+this.h = 3.2*this.w/3;
 
 
 ctx.drawImage(this.src,this.x,this.y-this.h,this.w,this.h);
