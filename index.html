@@ -11,9 +11,9 @@
             <div class="logo">
                 <img src="images/icon.png" alt=""></div>
                 <div class="text"><h1>3D Car Drive</h1></div>  
-               <div id="scoreDiv"><h2>your scrore : </h2>
+               <div id="scoreDiv"><span><h2>your scrore : </h2></span>
   <span id="score" > 0</span>
-    <img src="https://image.ibb.co/jRAp0y/coin.png" id="cn" width="30">
+    <img src="https://image.ibb.co/jRAp0y/coin.png" id="cn">
 </div>
 
 <canvas id="gameCanvas" width="400" height="600"></canvas>
@@ -158,6 +158,9 @@ h = w;
 w = nh;
 
 document.getElementById("mainContainer").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+document.getElementById("nav").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+document.getElementById("scoreDiv").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+
 
 }
 
@@ -196,7 +199,9 @@ var roadConstant = roadLeft/(h-roadTop);
 
 var score = 0;
 
+
 var scoreC = document.getElementById("score");
+
 
 function updateScore(ds){
 
