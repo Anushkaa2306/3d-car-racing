@@ -32,19 +32,12 @@
                     var hh = window.innerHeight || 560;
                     var gameHome = document.getElementById("startPage");
                     var scoreDiv = document.getElementById("scoreDiv");
-                    var nav = document.querySelector(".nav");
                     if(hh > hw){
                         gameHome.style.height = hw+"px";
                         gameHome.style.width = hh+"px";
                         gameHome.style.transform = "translateX("+hw+"px) rotate(90deg)";
                         scoreDiv.style.bottom = 0;
                         scoreDiv.style.transform = "rotate(90deg) translateX(40px)";
-                        if(nav) nav.style.transform = "rotate(90deg) translateX(40px)";
-                    } else {
-                        // Reset transforms for landscape view
-                        gameHome.style.transform = "";
-                        scoreDiv.style.transform = "";
-                        if(nav) nav.style.transform = "";
                     }
                 })();
             </script>
@@ -165,10 +158,12 @@ h = w;
 w = nh;
 
 document.getElementById("mainContainer").style.transform = "translateX("+(h)+"px) rotate(90deg)";
-document.getElementById("nav").style.transform = "translateX("+(h)+"px) rotate(90deg)";
+document.querySelector(".nav").style.transform = "translateX("+(h)+"px) rotate(90deg)";
 document.getElementById("scoreDiv").style.transform = "translateX("+(h)+"px) rotate(90deg)";
-
-
+} else {
+document.getElementById("mainContainer").style.transform = "";
+document.querySelector(".nav").style.transform = "";
+document.getElementById("scoreDiv").style.transform = "";
 }
 
 
@@ -337,7 +332,7 @@ var carWCnst = roadLeft*2/totalHeight;
 
 var carW = (w > 560) ? 120 : 90;
 
-var carH = carW*5/5.2;
+var carH = carW*5/5.3;
 
 
 function CarBuilder(src,start,lane){
