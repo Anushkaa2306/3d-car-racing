@@ -11,10 +11,6 @@
             <div class="logo">
                 <img src="images/icon.png" alt=""></div>
                 <div class="text"><h1>3D Car Drive</h1></div>  
-               <div id="scoreDiv"><span><h2>your scrore : </h2></span>
-  <span id="score" > 0</span>
-    <img src="https://static.vecteezy.com/system/resources/previews/010/851/211/non_2x/3d-illustration-golden-money-coins-png.png" id="cn">
-</div>
 
 <canvas id="gameCanvas" width="400" height="600"></canvas>
 
@@ -53,7 +49,10 @@
         <img class="aImg" id="t3" src="https://png.pngtree.com/png-vector/20230831/ourmid/pngtree-3d-tree-illustration-png-image_9192692.png">
         <img class="aImg" id="t4" src="https://image.ibb.co/ksy0nd/t4.png">
         <img class="aImg" id="c1" src="images/car.png" >
-       
+        <div id="scoreDiv"><span><h2>your scrore : </h2></span>
+  <span id="score" > 0</span>
+    <img src="https://static.vecteezy.com/system/resources/previews/010/851/211/non_2x/3d-illustration-golden-money-coins-png.png" id="cn">
+</div>
 <script>
 
     let canvas = document.getElementById("gameCanvas");
@@ -130,7 +129,7 @@ var loaded = false;
 
 
 function done(){
-setTimeout(endGame, 2000);
+
 document.getElementById("ldc").innerHTML="";
 
 document.getElementById("ldc").style.display = "none";
@@ -159,7 +158,7 @@ w = nh;
 
 document.getElementById("mainContainer").style.transform = "translateX("+(h)+"px) rotate(90deg)";
 document.querySelector(".nav").style.transform = "translateX("+(h)+"px) rotate(90deg)";
-document.getElementById("scoreDiv").style.transform = "translateX("+(h)+"px) rotate(180deg)";
+document.getElementById("scoreDiv").style.transform = "translateX("+(h)+"px) rotate(90deg)";
 } else {
 document.getElementById("mainContainer").style.transform = "";
 document.querySelector(".nav").style.transform = "";
@@ -978,6 +977,5 @@ document.getElementById("c1").style.width = "550px";
 
 
 </script>
-        <button id="restartBtn" onclick="restart()" style="display:none;">Restart Game</button>
     </body>
 </html>
